@@ -43,6 +43,7 @@ PLACEHOLDER_VALUES = frozenset({
     "your_key_id",
     "your_application_key",
     "your-bucket-name",
+    "your_b2_region",
 })
 
 

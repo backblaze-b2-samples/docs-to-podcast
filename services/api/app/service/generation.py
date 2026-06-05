@@ -6,7 +6,7 @@ from app.repo.llm_client import LLMError, generate_script
 from app.repo.tts_client import TTSError, synthesize_line
 from app.service import shows as shows_service
 from app.service.text_extract import extract_text
-from app.types import Episode, EpisodeStatus, ScriptLine
+from app.types import Episode, EpisodeStatus, ScriptLine, Show
 
 logger = logging.getLogger(__name__)
 
@@ -26,8 +26,7 @@ def _build_prompt(show_title: str, source_texts: list[str]) -> str:
     )
 
 
-def _gather_source_texts(episode: Episode) -> list[str]:
-    show = shows_service.get_show(episode.show_id)
+def _gather_source_texts(show: Show) -> list[str]:
     texts: list[str] = []
     for ref in show.sources:
         data = get_object_bytes(ref.key)
@@ -61,11 +60,12 @@ def generate_episode(show_id: str, episode_id: str) -> None:
     shows_service.save_episode(episode)
 
     try:
-        source_texts = _gather_source_texts(episode)
+        show = shows_service.get_show(show_id)
+        source_texts = _gather_source_texts(show)
         if not source_texts:
             raise ValueError("No readable source documents to generate from")
 
-        prompt = _build_prompt(episode.title, source_texts)
+        prompt = _build_prompt(show.title, source_texts)
         raw_lines = generate_script(prompt)
         lines = [ScriptLine(speaker=line["speaker"], text=line["text"]) for line in raw_lines]
 
