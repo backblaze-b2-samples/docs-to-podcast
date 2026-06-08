@@ -16,7 +16,17 @@ Each episode is a self-contained bundle of related objects — exactly the shape
 
 ## What it looks like
 
-> Screenshots are captured separately (via the `sample-screenshotter` skill) and added later — no binary assets are committed during scaffolding. Run the app with `pnpm dev` to see the Dashboard, Studio, and Shows screens.
+**Dashboard** — shows, episodes, listening minutes, and storage used, with a 7-day generation-activity chart and a recent-episodes table.
+
+![Dashboard with shows, episodes, listening minutes, and storage metrics](docs/images/dashboard.png)
+
+**Studio** — the three-step workflow to pick or create a show, drop in source documents, and generate a two-host episode.
+
+![Studio workflow for choosing a show, adding sources, and generating an episode](docs/images/studio.png)
+
+**Shows** — the podcast library scoped to the `shows/` prefix in B2, each card showing source and episode counts.
+
+![Shows library scoped to the shows/ prefix in B2](docs/images/shows.png)
 
 ## Architecture at a glance
 
